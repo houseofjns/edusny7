@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House of J&S - ICT Mid-Term Examination</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold-light: #FCEABB;
+            --gold-primary: #D4AF37;
+            --gold-dark: #B8860B;
+            --gold-gradient: linear-gradient(135deg, #E6C27A 0%, #C59B27 100%);
+            --gold-gradient-hover: linear-gradient(135deg, #D4AF37 0%, #A67C00 100%);
+            
+            --bg-color: #F8F9FA;
+            --white: #FFFFFF;
+            --text-main: #1A202C;
+            --text-muted: #718096;
+            --border-color: #E2E8F0;
+            
+            --success: #2F855A;
+            --success-bg: #F0FFF4;
+            --error: #C53030;
+            --error-bg: #FFF5F5;
+            --warning: #DD6B20;
+            
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-lg: 0 12px 24px rgba(0,0,0,0.08);
+            --shadow-gold: 0 8px 20px rgba(212, 175, 55, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        input, textarea, select {
+            -webkit-user-select: text;
+            -khtml-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 50px;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .brand-title {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-container img {
+            max-height: 55px;
+            width: auto;
+            border-radius: 6px;
+        }
+
+        .header-title h1 {
+            color: var(--text-main);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .header-title p {
+            color: var(--gold-primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        #timer-display {
+            display: none;
+            background: var(--error-bg);
+            color: var(--error);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: 1px solid #FEB2B2;
+            box-shadow: var(--shadow-sm);
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        #user-greeting {
+            display: none;
+            font-weight: 600;
+            color: var(--gold-dark);
+            background: var(--gold-light);
+            padding: 8px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            font-size: 0.95rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Warning Overlay */
+        #warning-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            flex-direction: column;
+            backdrop-filter: blur(5px);
+        }
+
+        #warning-overlay h2 {
+            font-size: 4rem;
+            color: var(--error);
+            margin-bottom: 20px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.8);
+            animation: shake 0.5s;
+        }
+
+        #warning-overlay p {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            max-width: 600px;
+        }
+
+        .warning-btn {
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: var(--error);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .warning-btn:hover {
+            background: #9B2C2C;
+        }
+
+        /* Login Screen */
+        #login-container {
+            max-width: 480px;
+            margin: 60px auto;
+            background: var(--white);
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border-top: 6px solid var(--gold-primary);
+            text-align: center;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .login-logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .login-logo img {
+            max-height: 90px;
+            width: auto;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        #login-container h2 {
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        #login-container p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #FAFAFA;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
+            background-color: var(--white);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--gold-gradient);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: var(--shadow-gold);
+        }
+
+        .login-btn:hover {
+            background: var(--gold-gradient-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .study-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--white);
+            color: var(--gold-dark);
+            border: 2px solid var(--gold-primary);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .study-btn:hover {
+            background-color: var(--gold-light);
+            transform: translateY(-2px);
+        }
+
+        .error-msg {
+            color: var(--error);
+            background: var(--error-bg);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 0.9rem;
+            border: 1px solid #FEB2B2;
+            animation: shake 0.4s;
+        }
+
+        /* Study Notes Container */
+        #study-notes-container {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .notes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: var(--white);
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border-left: 6px solid var(--gold-primary);
+        }
+
+        .notes-header h2 {
+            color: var(--text-main);
+            margin: 0;
+            font-size: 1.6rem;
+        }
+
+        .unit-section {
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .unit-header {
+            background: linear-gradient(to right, rgba(252, 234, 187, 0.4), var(--white));
+            padding: 20px 30px;
+            border-bottom: 2px solid var(--gold-primary);
+        }
+
+        .unit-header h3 {
+            color: var(--gold-dark);
+            margin: 0;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .unit-content {
+            padding: 30px;
+        }
+
+        .note-topic {
+            margin-bottom: 25px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        .note-topic:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .note-topic h4 {
+            color: var(--text-main);
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .note-topic h4::before {
+            content: "✦";
+            color: var(--gold-primary);
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .note-text {
+            color: var(--text-main);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        .note-list {
+            list-style-type: none;
+            margin-left: 5px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .note-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .note-list li::before {
+            content: "•";
+            color: var(--gold-primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        .highlight-term {
+            font-weight: 700;
+            color: var(--gold-dark);
+            background: rgba(212, 175, 55, 0.1);
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        /* Exam Content */
+        #exam-container {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .exam-info-card {
+            background: linear-gradient(135deg, var(--white) 0%, #FFFDF7 100%);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 16px;
+            padding: 40px 30px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exam-info-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gold-gradient);
+        }
+
+        .exam-info-card h2 {
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .marks-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .mark-item {
+            background: var(--white);
+            padding: 10px 20px;
+            border-radius: 30px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin: 50px 0 25px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--gold-primary);
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        .section-title span {
+            background: var(--gold-gradient);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-left: 15px;
+            font-family: 'Inter', sans-serif;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .question-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            line-height: 1.5;
+        }
+
+        .marks-badge {
+            background-color: var(--gold-light);
+            color: var(--gold-dark);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            white-space: nowrap;
+            margin-left: 15px;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            cursor: pointer;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            transition: all 0.2s ease;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .options label:hover {
+            background-color: #FAFAFA;
+            border-color: var(--gold-primary);
+            transform: translateX(5px);
+        }
+
+        .options input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #CBD5E0;
+            border-radius: 50%;
+            margin-right: 15px;
+            position: relative;
+            outline: none;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            background-color: var(--white);
+        }
+
+        .options input[type="radio"]:checked {
+            border-color: var(--gold-primary);
+            background-color: var(--gold-primary);
+            box-shadow: inset 0 0 0 4px var(--white);
+        }
+
+        .options input[type="radio"]:checked + span {
+            color: var(--gold-dark);
+            font-weight: 700;
+        }
+
+        .textarea-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #FAFAFA;
+            resize: vertical;
+            min-height: 90px;
+            color: var(--text-main);
+        }
+
+        .textarea-input:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
+            background-color: var(--white);
+        }
+
+        .order-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .order-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #FAFAFA;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            transition: border-color 0.2s;
+        }
+
+        .order-step:focus-within {
+            border-color: var(--gold-primary);
+            background: var(--white);
+        }
+
+        .order-label {
+            font-weight: 700;
+            color: var(--gold-dark);
+            min-width: 70px;
+            font-size: 0.95rem;
+        }
+
+        .order-select {
+            flex-grow: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #CBD5E0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--white);
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .order-select:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background: var(--gold-gradient);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: var(--shadow-gold);
+        }
+
+        .submit-btn:hover {
+            background: var(--gold-gradient-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Result Section */
+        #result-container {
+            display: none;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .score-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gold-gradient);
+        }
+
+        .score-card h2 {
+            font-size: 2.2rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        .score-display {
+            font-size: 5rem;
+            font-weight: 800;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            margin: 25px 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .score-display span {
+            font-size: 2rem;
+            color: var(--text-muted);
+            -webkit-text-fill-color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .result-breakdown {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .result-breakdown h3 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .result-item {
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 6px solid #CBD5E0;
+            background-color: #FAFAFA;
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .result-item.correct {
+            border-left-color: var(--success);
+            background-color: var(--success-bg);
+        }
+
+        .result-item.incorrect {
+            border-left-color: var(--error);
+            background-color: var(--error-bg);
+        }
+
+        .result-item strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            font-size: 1.05rem;
+        }
+
+        .answer-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+            font-size: 0.95rem;
+            background: rgba(255,255,255,0.6);
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .your-answer-text { color: var(--error); font-weight: 700; }
+        .correct-answer-text { color: var(--success); font-weight: 700; }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .retake-btn {
+            padding: 15px 35px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            font-size: 1rem;
+            background-color: var(--text-main);
+            color: var(--white);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .retake-btn:hover {
+            background-color: #000;
+            transform: translateY(-2px);
+        }
+
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 8rem;
+            color: rgba(212, 175, 55, 0.03);
+            pointer-events: none;
+            z-index: -1;
+            white-space: nowrap;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; text-align: center; gap: 15px; padding: 15px 20px; }
+            .header-right { flex-direction: column; gap: 10px; }
+            .header-title h1 { font-size: 1.3rem; }
+            .order-step { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .order-label { margin-bottom: 0; }
+            .score-display { font-size: 4rem; }
+            .notes-header { flex-direction: column; gap: 20px; text-align: center; }
+            .question-text { flex-direction: column; }
+            .marks-badge { margin-left: 0; margin-top: 10px; align-self: flex-start; }
+            #warning-overlay h2 { font-size: 2.5rem; }
+            #warning-overlay p { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="watermark">House of J&S</div>
+
+    <!-- Warning Overlay -->
+    <div id="warning-overlay">
+        <h2>⚠️ SECURITY WARNING</h2>
+        <p id="warning-text">You have attempted to leave the exam page.</p>
+        <p style="margin-top: 20px; font-size: 1.2rem; color: #FEB2B2;">Warning <span id="warning-count">1</span> of 3</p>
+        <p style="font-size: 1rem; margin-top: 10px; color: #CBD5E0;">(If you reach 3 warnings, your exam will be automatically submitted)</p>
+        <button class="warning-btn" onclick="resumeExam()">Return to Exam</button>
+    </div>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo1.png" alt="J&S Logo" onerror="this.style.display='none'">
+            <div class="header-title">
+                <h1>House of J&S</h1>
+                <p>Computer Training Center</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div id="timer-display">Time Left: <span id="time-left">60:00</span></div>
+            <div id="user-greeting">Welcome, <span id="display-name"></span></div>
+        </div>
+    </header>
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-container">
+        <div class="login-logo">
+            <img src="logo1.png" alt="House of J&S Logo" onerror="this.style.display='none'">
+        </div>
+        
+        <h2>Student Login</h2>
+        <p>Please enter your details to access the Mid-Term Exam.</p>
+        
+        <div id="login-error" class="error-msg"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="studentName">Student Name</label>
+                <input type="text" id="studentName" class="form-control" placeholder="e.g. John Doe" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="studentPassword">Exam Password</label>
+                <input type="password" id="studentPassword" class="form-control" placeholder="Enter password" required>
+            </div>
+            <button type="submit" class="login-btn">Login & Start Exam</button>
+            <button type="button" class="study-btn" onclick="showNotes()">📚 Study Notes (အသေးစိတ်လေ့လာရန်)</button>
+        </form>
+    </div>
+
+    <!-- DETAILED STUDY NOTES CONTAINER -->
+    <div class="container" id="study-notes-container">
+        <div class="notes-header">
+            <h2>📚 Mid-Term Study Notes (ICT)</h2>
+            <button type="button" class="retake-btn" style="padding: 10px 25px; font-size: 0.9rem;" onclick="showLogin()">⬅ Back to Login</button>
+        </div>
+
+        <!-- ================= UNIT 2 ================= -->
+        <div class="unit-section">
+            <div class="unit-header">
+                <h3>📘 Unit 2: Digital Literacy — Stay Safe Online</h3>
+            </div>
+            <div class="unit-content">
+                
+                <div class="note-topic">
+                    <h4>2.1 Your Data and Cookies</h4>
+                    <p class="note-text">A <span class="highlight-term">cookie</span> is a small file a website puts in your browser to remember you. It is not food and cannot hurt your computer.</p>
+                    <ul class="note-list">
+                        <li><strong>Essential cookies:</strong> Needed for the website to work. You cannot turn these off.</li>
+                        <li><strong>Performance cookies:</strong> Collect information on how you use the site to improve it.</li>
+                        <li><strong>Functionality cookies:</strong> Record what you do (like filling a form) to make the page more personal next time.</li>
+                        <li><strong>Advertising cookies:</strong> Record what you look at to show personal adverts. (Privacy risk).</li>
+                        <li><strong>Law:</strong> Websites must make it clear what cookies they use.</li>
+                    </ul>
+                </div>
+
+                <div class="note-topic">
+                    <h4>2.2 Cyber Choices</h4>
+                    <ul class="note-list">
+                        <li><strong>Cybercrime:</strong> Criminal activity using a computer/internet.</li>
+                        <li><strong>Phishing:</strong> Fake website/email looking like a real bank to steal login details.</li>
+                        <li><strong>Identity Theft:</strong> Stealing personal info (passport no.) to pretend to be you.</li>
+                        <li><strong>Hacking:</strong> Breaking into a computer system to steal data.</li>
+                        <li><strong>Scamming:</strong> Emails asking for money, selling fake products, or threatening you.</li>
+                        <li><strong>Malware:</strong> Software designed to commit crimes (steal, damage, or stop computer).</li>
+                        <li><strong>Spyware:</strong> Records what you type to steal login details.</li>
+                        <li><strong>Ransomware:</strong> Encrypts your data and asks for money to unlock it.</li>
+                        <li><strong>Trojan:</strong> Malware hidden inside another program.</li>
+                        <li><strong>Virus:</strong> Spreads and infects files, can destroy data.</li>
+                        <li><strong>Ethical Hacking:</strong> "White hat" hackers legally finding weaknesses to make systems stronger.</li>
+                    </ul>
+                </div>
+
+                <div class="note-topic">
+                    <h4>2.3 Protect Your Computer</h4>
+                    <ul class="note-list">
+                        <li><strong>Anti-Virus (AV):</strong> Detects, blocks, and quarantines malware using signatures.</li>
+                        <li><strong>Firewall:</strong> Protective barrier monitoring incoming/outgoing traffic.</li>
+                        <li><strong>Email Safety:</strong> Beware of phishing, use strong passwords, enable 2FA, keep software updated, use safe usernames.</li>
+                    </ul>
+                </div>
+
+                <div class="note-topic">
+                    <h4>2.4, 2.5 & 2.6 Digital Footprint, Privacy & Cyberbullying</h4>
+                    <ul class="note-list">
+                        <li><strong>Digital Footprint:</strong> Trail of data you leave online (posts, searches). Posts are persistent (stay forever).</li>
+                        <li><strong>Privacy:</strong> Control what you share. Turn off location, disable auto-login, change passwords.</li>
+                        <li><strong>Cyberbullying:</strong> Using digital tools to harass. Forms: Harassment, Impersonation, Exclusion, Outing/Dissing. Action: Save evidence, do not reply, block, report.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= UNIT 6 ================= -->
+        <div class="unit-section">
+            <div class="unit-header">
+                <h3>📗 Unit 6: Understanding Technology — Networks</h3>
+            </div>
+            <div class="unit-content">
+                
+                <div class="note-topic">
+                    <h4>6.1 Network Hardware</h4>
+                    <ul class="note-list">
+                        <li><strong>Server:</strong> High-performance computer providing services to clients.</li>
+                        <li><strong>Hub vs Switch:</strong> Hub sends data to ALL devices (less secure). Switch sends data ONLY to the specific recipient (faster, secure). "A Switch is Smarter".</li>
+                        <li><strong>Router:</strong> Connects different networks together (e.g., LAN to Internet).</li>
+                        <li><strong>Modem:</strong> Converts digital data to analog signals for transmission.</li>
+                        <li><strong>WAP:</strong> Wireless Access Point connects devices to wired network wirelessly.</li>
+                        <li><strong>NIC:</strong> Network Interface Card (hardware to connect to network).</li>
+                    </ul>
+                </div>
+
+                <div class="note-topic">
+                    <h4>6.2 How a Network Fits Together</h4>
+                    <ul class="note-list">
+                        <li><strong>Home Hub:</strong> Combines router, modem, switch, and WAP.</li>
+                        <li><strong>LAN:</strong> Local Area Network (school, office).</li>
+                        <li><strong>Copper Cable:</strong> Electrical pulses, max 100m.</li>
+                        <li><strong>Fibre-Optic Cable:</strong> Pulses of light, faster, longer distances.</li>
+                        <li><strong>Server Room:</strong> Needs air conditioning.</li>
+                    </ul>
+                </div>
+
+                <div class="note-topic">
+                    <h4>6.3, 6.4 & 6.5 Network Communication</h4>
+                    <ul class="note-list">
+                        <li><strong>Protocol:</strong> Rules for exchanging data.</li>
+                        <li><strong>Data Packets:</strong> Files split into chunks. Contains Destination IP, Sender IP, Sequence number, Error-checking data.</li>
+                        <li><strong>Packet Switching:</strong> Packets take independent routes, arrive out of order, then reassembled using sequence numbers. Missing packets are re-sent.</li>
+                        <li><strong>Troubleshooting:</strong> Check cables, Wi-Fi toggle, passwords, or power-cycle (reboot) the router.</li>
+                    </ul>
+                </div>
+
+                <div class="note-topic">
+                    <h4>6.6 In the Cloud</h4>
+                    <ul class="note-list">
+                        <li><strong>Cloud Computing:</strong> Remote storage/apps via internet.</li>
+                        <li><strong>Advantages:</strong> Access anywhere, real-time collaboration, auto-backup.</li>
+                        <li><strong>Disadvantages:</strong> Needs internet, subscription costs, privacy concerns.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px; margin-bottom: 50px;">
+            <button type="button" class="login-btn" style="max-width: 300px; margin: 0 auto;" onclick="showLogin()">I'm Ready! Go to Login</button>
+        </div>
+    </div>
+
+    <!-- MAIN EXAM CONTAINER -->
+    <div class="container" id="exam-container">
+        
+        <div class="exam-info-card">
+            <h2>ICT Mid-Term Examination</h2>
+            <p><strong>WARNING:</strong> Do not switch tabs, minimize the window, use Alt+Tab, or exit full screen. Doing so 3 times will result in an automatic submission of your exam.</p>
+            <div class="marks-breakdown">
+                <div class="mark-item">Part 1: MCQ (20 Mks)</div>
+                <div class="mark-item">Part 2: True/False (10 Mks)</div>
+                <div class="mark-item">Part 3: Fill in Blanks (20 Mks)</div>
+                <div class="mark-item">Part 4: Short Qs (20 Mks)</div>
+                <div class="mark-item">Part 5: Order Steps (30 Mks)</div>
+            </div>
+        </div>
+
+        <form id="examForm">
+            <!-- PART 1: MCQ -->
+            <h2 class="section-title">Part 1: Multiple Choice <span>20 Marks</span></h2>
+            
+            <div class="question-card">
+                <div class="question-text">1. What is a cookie? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="A"> <span>A) A small file a website puts in your browser</span></label>
+                    <label><input type="radio" name="q1" value="B"> <span>B) A virus that damages your computer</span></label>
+                    <label><input type="radio" name="q1" value="C"> <span>C) A type of food</span></label>
+                    <label><input type="radio" name="q1" value="D"> <span>D) A hardware component</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">2. Which type of cookie is needed for the website to work and cannot be turned off? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="A"> <span>A) Performance</span></label>
+                    <label><input type="radio" name="q2" value="B"> <span>B) Functional</span></label>
+                    <label><input type="radio" name="q2" value="C"> <span>C) Essential</span></label>
+                    <label><input type="radio" name="q2" value="D"> <span>D) Advertising</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">3. What is Phishing? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="A"> <span>A) Breaking into a computer system</span></label>
+                    <label><input type="radio" name="q3" value="B"> <span>B) Creating a fake website to steal login details</span></label>
+                    <label><input type="radio" name="q3" value="C"> <span>C) Recording what the user types</span></label>
+                    <label><input type="radio" name="q3" value="D"> <span>D) Stealing a physical passport</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">4. What is Ransomware? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="A"> <span>A) Software that encrypts data and asks for money</span></label>
+                    <label><input type="radio" name="q4" value="B"> <span>B) Malware hidden inside another program</span></label>
+                    <label><input type="radio" name="q4" value="C"> <span>C) A harmless virus</span></label>
+                    <label><input type="radio" name="q4" value="D"> <span>D) A type of firewall</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">5. What is a Trojan? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q5" value="A"> <span>A) Software that spreads and infects files</span></label>
+                    <label><input type="radio" name="q5" value="B"> <span>B) Malware hidden inside another program</span></label>
+                    <label><input type="radio" name="q5" value="C"> <span>C) A protective barrier</span></label>
+                    <label><input type="radio" name="q5" value="D"> <span>D) A type of cloud storage</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">6. What does a Firewall do? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q6" value="A"> <span>A) Detects and removes viruses</span></label>
+                    <label><input type="radio" name="q6" value="B"> <span>B) Monitors incoming and outgoing traffic</span></label>
+                    <label><input type="radio" name="q6" value="C"> <span>C) Records what you type</span></label>
+                    <label><input type="radio" name="q6" value="D"> <span>D) Connects different networks</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">7. What is a Digital Footprint? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q7" value="A"> <span>A) The physical size of your computer</span></label>
+                    <label><input type="radio" name="q7" value="B"> <span>B) The trail of data you leave online</span></label>
+                    <label><input type="radio" name="q7" value="C"> <span>C) The number of emails you send</span></label>
+                    <label><input type="radio" name="q7" value="D"> <span>D) A type of network cable</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">8. What is a Server? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q8" value="A"> <span>A) A device that connects to the internet</span></label>
+                    <label><input type="radio" name="q8" value="B"> <span>B) A high-performance computer that provides services</span></label>
+                    <label><input type="radio" name="q8" value="C"> <span>C) A type of malware</span></label>
+                    <label><input type="radio" name="q8" value="D"> <span>D) A wireless access point</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">9. Which device sends data only to the specific recipient? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q9" value="A"> <span>A) Hub</span></label>
+                    <label><input type="radio" name="q9" value="B"> <span>B) Switch</span></label>
+                    <label><input type="radio" name="q9" value="C"> <span>C) Modem</span></label>
+                    <label><input type="radio" name="q9" value="D"> <span>D) Router</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">10. What does a Modem do? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q10" value="A"> <span>A) Connects networks together</span></label>
+                    <label><input type="radio" name="q10" value="B"> <span>B) Converts digital data into analog signals</span></label>
+                    <label><input type="radio" name="q10" value="C"> <span>C) Stores web pages</span></label>
+                    <label><input type="radio" name="q10" value="D"> <span>D) Cools down the server room</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">11. What is a LAN? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q11" value="A"> <span>A) Long Area Network</span></label>
+                    <label><input type="radio" name="q11" value="B"> <span>B) Local Area Network</span></label>
+                    <label><input type="radio" name="q11" value="C"> <span>C) Large Access Node</span></label>
+                    <label><input type="radio" name="q11" value="D"> <span>D) Linked Analog Network</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">12. Which cable is significantly faster and spans longer distances? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q12" value="A"> <span>A) Copper Cable</span></label>
+                    <label><input type="radio" name="q12" value="B"> <span>B) Fibre-Optic Cable</span></label>
+                    <label><input type="radio" name="q12" value="C"> <span>C) USB Cable</span></label>
+                    <label><input type="radio" name="q12" value="D"> <span>D) HDMI Cable</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">13. What is a Protocol? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q13" value="A"> <span>A) A type of virus</span></label>
+                    <label><input type="radio" name="q13" value="B"> <span>B) A standard set of rules for exchanging data</span></label>
+                    <label><input type="radio" name="q13" value="C"> <span>C) A physical cable</span></label>
+                    <label><input type="radio" name="q13" value="D"> <span>D) A cloud storage service</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">14. Large files are split into small chunks called what? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q14" value="A"> <span>A) Cookies</span></label>
+                    <label><input type="radio" name="q14" value="B"> <span>B) Packets</span></label>
+                    <label><input type="radio" name="q14" value="C"> <span>C) Routers</span></label>
+                    <label><input type="radio" name="q14" value="D"> <span>D) Switches</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">15. In Packet Switching, do packets always arrive in order? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q15" value="A"> <span>A) Yes, always</span></label>
+                    <label><input type="radio" name="q15" value="B"> <span>B) No, they take independent routes</span></label>
+                    <label><input type="radio" name="q15" value="C"> <span>C) Only on weekends</span></label>
+                    <label><input type="radio" name="q15" value="D"> <span>D) Only if using copper cables</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">16. What does 2FA stand for? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q16" value="A"> <span>A) Two-Factor Authentication</span></label>
+                    <label><input type="radio" name="q16" value="B"> <span>B) Two-File Access</span></label>
+                    <label><input type="radio" name="q16" value="C"> <span>C) Fast Firewall Access</span></label>
+                    <label><input type="radio" name="q16" value="D"> <span>D) Total File Archive</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">17. What is Cyberbullying? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q17" value="A"> <span>A) Playing games online</span></label>
+                    <label><input type="radio" name="q17" value="B"> <span>B) Using digital tools to intentionally harass someone</span></label>
+                    <label><input type="radio" name="q17" value="C"> <span>C) Sending a funny meme</span></label>
+                    <label><input type="radio" name="q17" value="D"> <span>D) Protecting your computer</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">18. Who is the "Invisible Audience"? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q18" value="A"> <span>A) Your close friends</span></label>
+                    <label><input type="radio" name="q18" value="B"> <span>B) People you don't know who see your posts</span></label>
+                    <label><input type="radio" name="q18" value="C"> <span>C) Hackers only</span></label>
+                    <label><input type="radio" name="q18" value="D"> <span>D) Computer programmers</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">19. What is an Ethical Hacker? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q19" value="A"> <span>A) A criminal who steals data</span></label>
+                    <label><input type="radio" name="q19" value="B"> <span>B) A "white hat" hacker finding weaknesses legally</span></label>
+                    <label><input type="radio" name="q19" value="C"> <span>C) A person who creates viruses</span></label>
+                    <label><input type="radio" name="q19" value="D"> <span>D) A software testing tool</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">20. What is Cloud Computing? <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q20" value="A"> <span>A) Using computers during rainy weather</span></label>
+                    <label><input type="radio" name="q20" value="B"> <span>B) Remote storage/apps hosted on the internet</span></label>
+                    <label><input type="radio" name="q20" value="C"> <span>C) A type of wireless access point</span></label>
+                    <label><input type="radio" name="q20" value="D"> <span>D) A physical server room</span></label>
+                </div>
+            </div>
+
+            <!-- PART 2: True/False -->
+            <h2 class="section-title">Part 2: True or False <span>10 Marks</span></h2>
+            
+            <div class="question-card">
+                <div class="question-text">21. Advertising cookies can usually access your browsing history. <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q21" value="True"> <span>True</span></label>
+                    <label><input type="radio" name="q21" value="False"> <span>False</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">22. Cybercrime is any criminal activity that can only be carried out using a computer or the internet. <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q22" value="True"> <span>True</span></label>
+                    <label><input type="radio" name="q22" value="False"> <span>False</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">23. Spyware is designed to steal personal information by recording what you type. <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q23" value="True"> <span>True</span></label>
+                    <label><input type="radio" name="q23" value="False"> <span>False</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">24. You should always open attachments from unknown senders to check what they are. <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q24" value="True"> <span>True</span></label>
+                    <label><input type="radio" name="q24" value="False"> <span>False</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">25. A strong password should only use lowercase letters. <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q25" value="True"> <span>True</span></label>
+                    <label><input type="radio" name="q25" value="False"> <span>False</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">26. Online posts are persistent, meaning they stay stored on servers and can be screenshotted. <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q26" value="True"> <span>True</span></label>
+                    <label><input type="radio" name="q26" value="False"> <span>False</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">27. A Router connects different networks together, such as a LAN to the Internet. <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q27" value="True"> <span>True</span></label>
+                    <label><input type="radio" name="q27" value="False"> <span>False</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">28. Copper cables are faster than fibre-optic cables. <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q28" value="True"> <span>True</span></label>
+                    <label><input type="radio" name="q28" value="False"> <span>False</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">29. Data packets always arrive at the destination in the exact order they were sent. <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q29" value="True"> <span>True</span></label>
+                    <label><input type="radio" name="q29" value="False"> <span>False</span></label>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">30. Cloud storage requires an active internet connection to access files. <span class="marks-badge">1 Mark</span></div>
+                <div class="options">
+                    <label><input type="radio" name="q30" value="True"> <span>True</span></label>
+                    <label><input type="radio" name="q30" value="False"> <span>False</span></label>
+                </div>
+            </div>
+
+            <!-- PART 3: Fill in the Blanks -->
+            <h2 class="section-title">Part 3: Fill in the Blank <span>20 Marks</span></h2>
+            
+            <div class="question-card">
+                <div class="question-text">31. ______ cookies record what you do on a web page to make it more personal. <span class="marks-badge">2 Marks</span></div>
+                <input type="text" class="textarea-input" name="q31" placeholder="Type your answer here...">
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">32. Stealing personal information to pretend to be someone else is called Identity ______. <span class="marks-badge">2 Marks</span></div>
+                <input type="text" class="textarea-input" name="q32" placeholder="Type your answer here...">
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">33. ______ is malware that encrypts data and asks for money. <span class="marks-badge">2 Marks</span></div>
+                <input type="text" class="textarea-input" name="q33" placeholder="Type your answer here...">
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">34. An ______ virus runs continuously to detect and block malware. <span class="marks-badge">2 Marks</span></div>
+                <input type="text" class="textarea-input" name="q34" placeholder="Type your answer here...">
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">35. The trail of data you leave behind online is called your digital ______. <span class="marks-badge">2 Marks</span></div>
+                <input type="text" class="textarea-input" name="q35" placeholder="Type your answer here...">
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">36. A ______ connects devices within a localized area like a school. <span class="marks-badge">2 Marks</span></div>
+                <input type="text" class="textarea-input" name="q36" placeholder="Type your answer here...">
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">37. ______ cables carry data as pulses of light. <span class="marks-badge">2 Marks</span></div>
+                <input type="text" class="textarea-input" name="q37" placeholder="Type your answer here...">
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">38. A ______ is a standard set of rules for exchanging data. <span class="marks-badge">2 Marks</span></div>
+                <input type="text" class="textarea-input" name="q38" placeholder="Type your answer here...">
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">39. Large files are split into small chunks called ______. <span class="marks-badge">2 Marks</span></div>
+                <input type="text" class="textarea-input" name="q39" placeholder="Type your answer here...">
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">40. Performing a basic power-cycle on a router is also known as ______. <span class="marks-badge">2 Marks</span></div>
+                <input type="text" class="textarea-input" name="q40" placeholder="Type your answer here...">
+            </div>
+
+            <!-- PART 4: Short Questions -->
+            <h2 class="section-title">Part 4: Short Questions <span>20 Marks</span></h2>
+            
+            <div class="question-card">
+                <div class="question-text">41. Explain the difference between a Hub and a Switch. <span class="marks-badge">4 Marks</span></div>
+                <textarea class="textarea-input" name="q41" placeholder="Type your answer here..."></textarea>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">42. What is Phishing and how can you protect yourself? <span class="marks-badge">4 Marks</span></div>
+                <textarea class="textarea-input" name="q42" placeholder="Type your answer here..."></textarea>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">43. Explain what a Digital Footprint is and give one best practice. <span class="marks-badge">4 Marks</span></div>
+                <textarea class="textarea-input" name="q43" placeholder="Type your answer here..."></textarea>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">44. What is the difference between a Virus and Ransomware? <span class="marks-badge">4 Marks</span></div>
+                <textarea class="textarea-input" name="q44" placeholder="Type your answer here..."></textarea>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">45. What is Cyberbullying? Name two actions to take if you are targeted. <span class="marks-badge">4 Marks</span></div>
+                <textarea class="textarea-input" name="q45" placeholder="Type your answer here..."></textarea>
+            </div>
+
+            <!-- PART 5: Order the Steps -->
+            <h2 class="section-title">Part 5: Order the Steps <span>30 Marks</span></h2>
+            <p style="margin-bottom: 20px; color: var(--text-muted); font-size: 0.95rem;">Select the correct sequence for the steps. (5 marks per question)</p>
+
+            <div class="question-card">
+                <div class="question-text">46. Order the Packet Switching process. <span class="marks-badge">5 Marks</span></div>
+                <div class="order-container">
+                    <div class="order-step">
+                        <span class="order-label">1st Step:</span>
+                        <select class="order-select" name="q46_1">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Packets take independent routes</option>
+                            <option value="B">File is broken down into numbered packets</option>
+                            <option value="C">Recipient device reassembles the file</option>
+                        </select>
+                    </div>
+                    <div class="order-step">
+                        <span class="order-label">2nd Step:</span>
+                        <select class="order-select" name="q46_2">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Packets take independent routes</option>
+                            <option value="B">File is broken down into numbered packets</option>
+                            <option value="C">Recipient device reassembles the file</option>
+                        </select>
+                    </div>
+                    <div class="order-step">
+                        <span class="order-label">3rd Step:</span>
+                        <select class="order-select" name="q46_3">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Packets take independent routes</option>
+                            <option value="B">File is broken down into numbered packets</option>
+                            <option value="C">Recipient device reassembles the file</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">47. Order the actions to take if you are Cyberbullied. <span class="marks-badge">5 Marks</span></div>
+                <div class="order-container">
+                    <div class="order-step">
+                        <span class="order-label">1st Step:</span>
+                        <select class="order-select" name="q47_1">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Report to a trusted adult</option>
+                            <option value="B">Save evidence (screenshots)</option>
+                            <option value="C">Block the sender</option>
+                        </select>
+                    </div>
+                    <div class="order-step">
+                        <span class="order-label">2nd Step:</span>
+                        <select class="order-select" name="q47_2">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Report to a trusted adult</option>
+                            <option value="B">Save evidence (screenshots)</option>
+                            <option value="C">Block the sender</option>
+                        </select>
+                    </div>
+                    <div class="order-step">
+                        <span class="order-label">3rd Step:</span>
+                        <select class="order-select" name="q47_3">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Report to a trusted adult</option>
+                            <option value="B">Save evidence (screenshots)</option>
+                            <option value="C">Block the sender</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">48. Order the steps to protect your computer/email. <span class="marks-badge">5 Marks</span></div>
+                <div class="order-container">
+                    <div class="order-step">
+                        <span class="order-label">1st Step:</span>
+                        <select class="order-select" name="q48_1">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Enable Two-Factor Authentication</option>
+                            <option value="B">Beware of Phishing emails</option>
+                            <option value="C">Use Strong Passwords</option>
+                        </select>
+                    </div>
+                    <div class="order-step">
+                        <span class="order-label">2nd Step:</span>
+                        <select class="order-select" name="q48_2">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Enable Two-Factor Authentication</option>
+                            <option value="B">Beware of Phishing emails</option>
+                            <option value="C">Use Strong Passwords</option>
+                        </select>
+                    </div>
+                    <div class="order-step">
+                        <span class="order-label">3rd Step:</span>
+                        <select class="order-select" name="q48_3">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Enable Two-Factor Authentication</option>
+                            <option value="B">Beware of Phishing emails</option>
+                            <option value="C">Use Strong Passwords</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">49. Order the troubleshooting for a wireless connection issue. <span class="marks-badge">5 Marks</span></div>
+                <div class="order-container">
+                    <div class="order-step">
+                        <span class="order-label">1st Step:</span>
+                        <select class="order-select" name="q49_1">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Power-cycle the router</option>
+                            <option value="B">Ensure Wi-Fi toggle is ON</option>
+                            <option value="C">Verify correct Network Security Key</option>
+                        </select>
+                    </div>
+                    <div class="order-step">
+                        <span class="order-label">2nd Step:</span>
+                        <select class="order-select" name="q49_2">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Power-cycle the router</option>
+                            <option value="B">Ensure Wi-Fi toggle is ON</option>
+                            <option value="C">Verify correct Network Security Key</option>
+                        </select>
+                    </div>
+                    <div class="order-step">
+                        <span class="order-label">3rd Step:</span>
+                        <select class="order-select" name="q49_3">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Power-cycle the router</option>
+                            <option value="B">Ensure Wi-Fi toggle is ON</option>
+                            <option value="C">Verify correct Network Security Key</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">50. Order the contents of a Data Packet. <span class="marks-badge">5 Marks</span></div>
+                <div class="order-container">
+                    <div class="order-step">
+                        <span class="order-label">1st Step:</span>
+                        <select class="order-select" name="q50_1">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Sequence number</option>
+                            <option value="B">Destination IP</option>
+                            <option value="C">Sender IP</option>
+                        </select>
+                    </div>
+                    <div class="order-step">
+                        <span class="order-label">2nd Step:</span>
+                        <select class="order-select" name="q50_2">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Sequence number</option>
+                            <option value="B">Destination IP</option>
+                            <option value="C">Sender IP</option>
+                        </select>
+                    </div>
+                    <div class="order-step">
+                        <span class="order-label">3rd Step:</span>
+                        <select class="order-select" name="q50_3">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Sequence number</option>
+                            <option value="B">Destination IP</option>
+                            <option value="C">Sender IP</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text">51. Order the Digital Footprint best practices. <span class="marks-badge">5 Marks</span></div>
+                <div class="order-container">
+                    <div class="order-step">
+                        <span class="order-label">1st Step:</span>
+                        <select class="order-select" name="q51_1">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Self-search what is public</option>
+                            <option value="B">Think before you post</option>
+                            <option value="C">Check privacy settings</option>
+                        </select>
+                    </div>
+                    <div class="order-step">
+                        <span class="order-label">2nd Step:</span>
+                        <select class="order-select" name="q51_2">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Self-search what is public</option>
+                            <option value="B">Think before you post</option>
+                            <option value="C">Check privacy settings</option>
+                        </select>
+                    </div>
+                    <div class="order-step">
+                        <span class="order-label">3rd Step:</span>
+                        <select class="order-select" name="q51_3">
+                            <option value="">-- Select Step --</option>
+                            <option value="A">Self-search what is public</option>
+                            <option value="B">Think before you post</option>
+                            <option value="C">Check privacy settings</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" id="submitBtn" class="submit-btn">Submit Final Exam</button>
+        </form>
+
+        <!-- Results Container -->
+        <div id="result-container">
+            <div class="score-card">
+                <h2 id="result-greeting">Examination Completed</h2>
+                <div class="score-display" id="score-display">0<span>/100</span></div>
+                <p id="submit-reason" style="color: var(--text-muted); font-weight: 600; margin-top: 10px;"></p>
+            </div>
+            
+            <div class="result-breakdown" id="detailed-results">
+                <h3>Detailed Question Review</h3>
+                <!-- JS will inject results here -->
+            </div>
+            
+            <div class="action-buttons">
+                <button onclick="location.reload()" class="retake-btn">Logout & Finish</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Strict Anti-Copy and Anti-Cheat Script ---
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        
+        document.addEventListener('keydown', function(e) {
+            // Block DevTools and View Source
+            if (e.keyCode == 123 || 
+                (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) || 
+                (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) || 
+                (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
+                e.preventDefault();
+                alert("Developer tools and copying are disabled during the exam.");
+            }
+        });
+
+        // --- Fullscreen Functions ---
+        function enterFullScreen() {
+            let elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                elem.msRequestFullscreen();
+            }
+        }
+
+        function exitFullScreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { /* Safari */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE11 */
+                document.msExitFullscreen();
+            }
+        }
+
+        // --- Timer & Warning Logic ---
+        let timeLeft = 3600; // 1 hour in seconds
+        let timerInterval;
+        let warningCount = 0;
+        let isExamActive = false;
+        let submitReason = "";
+        let lastWarningTime = 0; // To prevent double counting
+
+        function startTimer() {
+            const timerDisplay = document.getElementById('timer-display');
+            const timeLeftSpan = document.getElementById('time-left');
+            timerDisplay.style.display = 'block';
+
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitReason = "Time is up! Exam auto-submitted.";
+                    document.getElementById('examForm').dispatchEvent(new Event('submit'));
+                    return;
+                }
+                
+                timeLeft--;
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                timeLeftSpan.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Centralized warning handler
+        function handleWarning(reason) {
+            if (!isExamActive) return;
+            
+            // Prevent double counting from visibility and blur events firing at the same time
+            let now = new Date().getTime();
+            if (now - lastWarningTime < 1500) return; 
+            lastWarningTime = now;
+
+            warningCount++;
+            
+            if (warningCount < 3) {
+                const overlay = document.getElementById('warning-overlay');
+                document.getElementById('warning-count').innerText = warningCount;
+                document.getElementById('warning-text').innerText = reason;
+                overlay.style.display = 'flex';
+            } else {
+                clearInterval(timerInterval);
+                submitReason = "Exam auto-submitted due to 3 security warnings (Leaving exam page).";
+                document.getElementById('examForm').dispatchEvent(new Event('submit'));
+            }
+        }
+
+        // 1. Detect Tab Switching / Minimizing / Alt+Tab
+        document.addEventListener('visibilitychange', function() {
+            if (isExamActive && document.hidden) {
+                handleWarning("You have switched tabs, minimized the window, or used Alt+Tab.");
+            }
+        });
+
+        // 2. Detect Window Blur (Alt+Tab detection)
+        window.addEventListener('blur', function() {
+            if (isExamActive) {
+                // Small delay to let visibilitychange fire first if it's a tab switch
+                setTimeout(() => {
+                    if (isExamActive && !document.hidden) {
+                        // If it's blurred but not hidden, it's likely an OS-level switch like Alt+Tab
+                        handleWarning("You have attempted to switch applications (Alt+Tab).");
+                    }
+                }, 100);
+            }
+        });
+
+        // 3. Detect Exiting Fullscreen
+        document.addEventListener('fullscreenchange', (event) => {
+            if (isExamActive && !document.fullscreenElement) {
+                handleWarning("You have exited fullscreen mode.");
+            }
+        });
+
+        // 4. Prevent Back Button Navigation
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            if (isExamActive) {
+                history.go(1); // Push them forward
+                handleWarning("Attempted to use the browser Back button.");
+            }
+        };
+
+        // Resume Exam from Warning Overlay
+        function resumeExam() {
+            document.getElementById('warning-overlay').style.display = 'none';
+            // Force back into fullscreen if they somehow exited
+            if (!document.fullscreenElement && isExamActive) {
+                enterFullScreen();
+            }
+        }
+
+
+        // --- UI Navigation Functions ---
+        function showNotes() {
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('exam-container').style.display = 'none';
+            document.getElementById('result-container').style.display = 'none';
+            document.getElementById('study-notes-container').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showLogin() {
+            document.getElementById('study-notes-container').style.display = 'none';
+            document.getElementById('exam-container').style.display = 'none';
+            document.getElementById('result-container').style.display = 'none';
+            document.getElementById('login-container').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- Login Logic ---
+        let currentStudentName = "";
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nameInput = document.getElementById('studentName').value.trim();
+            const passInput = document.getElementById('studentPassword').value;
+            const errorMsg = document.getElementById('login-error');
+
+            if (passInput !== 'HJS2026') {
+                errorMsg.style.display = 'block';
+                errorMsg.innerText = 'Incorrect password. Please try again.';
+                return;
+            }
+
+            if (nameInput === '') {
+                errorMsg.style.display = 'block';
+                errorMsg.innerText = 'Please enter your name.';
+                return;
+            }
+
+            // Success
+            currentStudentName = nameInput;
+            errorMsg.style.display = 'none';
+            
+            // 1. Enter Full Screen
+            enterFullScreen();
+
+            // 2. Set Exam Active
+            isExamActive = true;
+            warningCount = 0; // Reset warnings
+            
+            // 3. Update Header
+            document.getElementById('display-name').innerText = currentStudentName;
+            document.getElementById('user-greeting').style.display = 'block';
+
+            // 4. Switch Screens
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('exam-container').style.display = 'block';
+            
+            // 5. Start Timer
+            startTimer();
+            
+            // 6. Add Dummy History State to trap back button
+            history.pushState(null, null, location.href);
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // --- Exam Logic & Answer Key ---
+        const answerKey = {
+            // MCQ (1-20)
+            q1: 'A', q2: 'C', q3: 'B', q4: 'A', q5: 'B',
+            q6: 'B', q7: 'B', q8: 'B', q9: 'B', q10: 'B',
+            q11: 'B', q12: 'B', q13: 'B', q14: 'B', q15: 'B',
+            q16: 'A', q17: 'B', q18: 'B', q19: 'B', q20: 'B',
+            // True/False (21-30)
+            q21: 'True', q22: 'True', q23: 'True', q24: 'False', q25: 'False',
+            q26: 'True', q27: 'True', q28: 'False', q29: 'False', q30: 'True',
+            // Fill in blanks (31-40)
+            q31: 'functionality', 
+            q32: 'theft', 
+            q33: 'ransomware', 
+            q34: 'anti-virus', 
+            q35: 'footprint', 
+            q36: 'LAN', 
+            q37: 'fibre-optic', 
+            q38: 'protocol', 
+            q39: 'packets', 
+            q40: 'rebooting', // Accepts reboot or rebooting
+            // Short answers (41-45) - Keyword based matching
+            q41: ['hub sends to all', 'switch sends to specific', 'switch is smarter', 'hub less secure'],
+            q42: ['fake website', 'steal login', 'don\'t click links', 'check sender', 'looks too good'],
+            q43: ['trail of data', 'online history', 'think before you post', 'check privacy settings'],
+            q44: ['virus spreads infects files', 'ransomware encrypts data', 'asks for money'],
+            q45: ['harass', 'intimidate', 'save evidence', 'screenshot', 'block', 'report', 'tell adult'],
+            // Ordering (46-51)
+            q46_1: 'B', q46_2: 'A', q46_3: 'C', // Packet Switching
+            q47_1: 'B', q47_2: 'C', q47_3: 'A', // Cyberbullying response
+            q48_1: 'B', q48_2: 'C', q48_3: 'A', // Protect computer
+            q49_1: 'B', q49_2: 'C', q49_3: 'A', // Troubleshooting
+            q50_1: 'B', q50_2: 'C', q50_3: 'A', // Data packet contents
+            q51_1: 'B', q51_2: 'C', q51_3: 'A'  // Digital footprint
+        };
+
+        const marks = { mcq: 1, tf: 1, fill: 2, short: 4, order: 5 };
+
+        document.getElementById('examForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            isExamActive = false; // Stop monitoring
+            clearInterval(timerInterval); // Stop timer
+            
+            // Exit Fullscreen upon submission
+            exitFullScreen();
+            
+            let totalScore = 0;
+            let resultHTML = '';
+
+            // 1. Evaluate MCQ (1-20)
+            for (let i = 1; i <= 20; i++) {
+                let qName = 'q' + i;
+                let selected = document.querySelector(`input[name="${qName}"]:checked`);
+                let userAnswer = selected ? selected.value : 'Not answered';
+                let correctAnswer = answerKey[qName];
+                
+                let qText = document.querySelector(`input[name="${qName}"]`).closest('.question-card').querySelector('.question-text').innerText.replace(/\d+ Marks?/, '').trim();
+
+                if (userAnswer === correctAnswer) {
+                    totalScore += marks.mcq;
+                    resultHTML += `<div class="result-item correct"><strong>Q${i}: ${qText}</strong> <div class="answer-detail"><span class="correct-answer-text">Student answered: ${userAnswer} (Correct)</span></div></div>`;
+                } else {
+                    resultHTML += `<div class="result-item incorrect"><strong>Q${i}: ${qText}</strong> <div class="answer-detail"><span class="your-answer-text">Student answered: ${userAnswer}</span><span class="correct-answer-text">Correct answer: ${correctAnswer}</span></div></div>`;
+                }
+            }
+
+            // 2. Evaluate True/False (21-30)
+            for (let i = 21; i <= 30; i++) {
+                let qName = 'q' + i;
+                let selected = document.querySelector(`input[name="${qName}"]:checked`);
+                let userAnswer = selected ? selected.value : 'Not answered';
+                let correctAnswer = answerKey[qName];
+                
+                let qText = document.querySelector(`input[name="${qName}"]`).closest('.question-card').querySelector('.question-text').innerText.replace(/\d+ Marks?/, '').trim();
+
+                if (userAnswer === correctAnswer) {
+                    totalScore += marks.tf;
+                    resultHTML += `<div class="result-item correct"><strong>Q${i}: ${qText}</strong> <div class="answer-detail"><span class="correct-answer-text">Student answered: ${userAnswer} (Correct)</span></div></div>`;
+                } else {
+                    resultHTML += `<div class="result-item incorrect"><strong>Q${i}: ${qText}</strong> <div class="answer-detail"><span class="your-answer-text">Student answered: ${userAnswer}</span><span class="correct-answer-text">Correct answer: ${correctAnswer}</span></div></div>`;
+                }
+            }
+
+            // 3. Evaluate Fill in the Blanks (31-40)
+            for (let i = 31; i <= 40; i++) {
+                let qName = 'q' + i;
+                let userAnswer = document.querySelector(`input[name="${qName}"]`).value.trim().toLowerCase();
+                let correctAnswer = answerKey[qName].toLowerCase();
+                
+                let qText = document.querySelector(`input[name="${qName}"]`).closest('.question-card').querySelector('.question-text').innerText.replace(/\d+ Marks?/, '').trim();
+
+                if (userAnswer === correctAnswer || (userAnswer !== '' && correctAnswer.includes(userAnswer))) {
+                    totalScore += marks.fill;
+                    resultHTML += `<div class="result-item correct"><strong>Q${i}: ${qText}</strong> <div class="answer-detail"><span class="correct-answer-text">Student answered: ${userAnswer} (Correct)</span></div></div>`;
+                } else {
+                    resultHTML += `<div class="result-item incorrect"><strong>Q${i}: ${qText}</strong> <div class="answer-detail"><span class="your-answer-text">Student answered: ${userAnswer || 'Blank'}</span><span class="correct-answer-text">Correct answer: ${answerKey[qName]}</span></div></div>`;
+                }
+            }
+
+            // 4. Evaluate Short Questions (41-45)
+            for (let i = 41; i <= 45; i++) {
+                let qName = 'q' + i;
+                let userAnswer = document.querySelector(`textarea[name="${qName}"]`).value.trim().toLowerCase();
+                let keywords = answerKey[qName];
+                let isCorrect = false;
+                let matchedKeyword = "";
+
+                let qText = document.querySelector(`textarea[name="${qName}"]`).closest('.question-card').querySelector('.question-text').innerText.replace(/\d+ Marks?/, '').trim();
+
+                for (let kw of keywords) {
+                    if (userAnswer.includes(kw)) {
+                        isCorrect = true;
+                        matchedKeyword = kw;
+                        break;
+                    }
+                }
+
+                if (isCorrect) {
+                    totalScore += marks.short;
+                    resultHTML += `<div class="result-item correct"><strong>Q${i}: ${qText}</strong> <div class="answer-detail"><span class="correct-answer-text">Student answered: "${userAnswer}"</span><span class="correct-answer-text">(Correct - Contains key concept)</span></div></div>`;
+                } else {
+                    resultHTML += `<div class="result-item incorrect"><strong>Q${i}: ${qText}</strong> <div class="answer-detail"><span class="your-answer-text">Student answered: "${userAnswer || 'Blank'}"</span><span class="correct-answer-text">Expected concepts: ${keywords.join(' OR ')}</span></div></div>`;
+                }
+            }
+
+            // 5. Evaluate Ordering (46-51)
+            let orderQuestions = [46, 47, 48, 49, 50, 51];
+            orderQuestions.forEach(qNum => {
+                let isFullyCorrect = true;
+                let userAnswers = [];
+                let correctAnswers = [];
+                
+                for(let step = 1; step <= 3; step++) {
+                    let qName = `q${qNum}_${step}`;
+                    let userVal = document.querySelector(`select[name="${qName}"]`).value;
+                    let correctVal = answerKey[qName];
+                    userAnswers.push(userVal || 'Blank');
+                    correctAnswers.push(correctVal);
+                    if(userVal !== correctVal) {
+                        isFullyCorrect = false;
+                    }
+                }
+
+                let qText = document.querySelector(`select[name="q${qNum}_1"]`).closest('.question-card').querySelector('.question-text').innerText.replace(/\d+ Marks?/, '').trim();
+
+                if (isFullyCorrect) {
+                    totalScore += marks.order;
+                    resultHTML += `<div class="result-item correct"><strong>Q${qNum}: ${qText}</strong> <div class="answer-detail"><span class="correct-answer-text">Student Sequence is Correct!</span></div></div>`;
+                } else {
+                    resultHTML += `<div class="result-item incorrect"><strong>Q${qNum}: ${qText}</strong> <div class="answer-detail"><span class="your-answer-text">Student Order: ${userAnswers.join(' -> ')}</span><span class="correct-answer-text">Correct Order: ${correctAnswers.join(' -> ')}</span></div></div>`;
+                }
+            });
+
+            // Display Results
+            document.getElementById('result-greeting').innerText = `${currentStudentName}'s Examination Report`;
+            document.getElementById('score-display').innerHTML = `${totalScore}<span>/100</span>`;
+            document.getElementById('detailed-results').innerHTML += resultHTML;
+            
+            if(submitReason) {
+                document.getElementById('submit-reason').innerText = submitReason;
+            }
+            
+            // Toggle UI
+            document.getElementById('exam-container').querySelector('.exam-info-card').style.display = 'none';
+            document.getElementById('examForm').style.display = 'none';
+            document.getElementById('result-container').style.display = 'block';
+            document.getElementById('warning-overlay').style.display = 'none';
+            
+            // Scroll to top smooth
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
